@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="TypeSQL">
+    <typeAlias alias="typeModel" type="com.djl.jcx.data.model.TypeModel"/>
+
+    <resultMap id="typeModels" class="typeModel">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="abbreviation" column="abbreviation"/>
+    </resultMap>
+
+    <!--<statement id="createTable">-->
+        <!--&lt;!&ndash;id自增主键从0开始 &ndash;&gt;-->
+        <!--<![CDATA[-->
+          <!--CREATE TABLE `t_type` (`id`  int NOT NULL AUTO_INCREMENT ,`name`  varchar(100) NOT NULL ,PRIMARY KEY (`id`));-->
+        <!--]]>-->
+    <!--</statement>-->
+
+    <statement id="dropTable">
+        <![CDATA[
+          drop table t_type
+        ]]>
+    </statement>
+
+    <insert id="insert" parameterClass="typeModel">
+        <![CDATA[
+          insert into t_type(name, abbreviation) values (#name#, #abbreviation#)
+        ]]>
+        <selectKey resultClass="int" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteById" parameterClass="int">
+        <![CDATA[
+          delete from t_type where id = #integer#
+        ]]>
+    </delete>
+
+    <!--<delete id="deleteByName" parameterClass="typeModel">-->
+        <!--<![CDATA[-->
+          <!--delete from t_type where name = #name#-->
+        <!--]]>-->
+    <!--</delete>-->
+
+    <update id="update" parameterClass="typeModel">
+        <![CDATA[
+          update t_type set id = #id#
+        ]]>
+        <dynamic>
+            <isNotNull property="name" prepend=",">name = #name#</isNotNull>
+            <isNotNull property="abbreviation" prepend=",">abbreviation = #abbreviation#</isNotNull>
+        </dynamic>
+        <![CDATA[
+          where id = #id#
+        ]]>
+    </update>
+
+    <select id="selectById" parameterClass="int" resultMap="typeModels">
+      <![CDATA[
+        select * from t_type where id = #id#
+      ]]>
+    </select>
+
+    <select id="selectByParam" parameterClass="typeModel" resultMap="typeModels">
+        <![CDATA[
+        select * from t_type
+      ]]>
+        <dynamic prepend="where">
+            <isNotEmpty property="id" prepend=" and ">id = #id#</isNotEmpty>
+            <isNotEmpty property="name" prepend=" and ">name = #name#</isNotEmpty>
+            <isNotEmpty property="abbreviation" prepend=" and ">abbreviation = #abbreviation#</isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="select" parameterClass="typeModel" resultMap="typeModels">
+      <![CDATA[
+        select * from t_type
+      ]]>
+    </select>
+
+</sqlMap>

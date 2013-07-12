@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="AdminSQL">
+    <typeAlias alias="adminModel" type="com.djl.jcx.data.model.AdminModel"/>
+
+    <resultMap id="adminModels" class="adminModel">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="comment" column="comment"/>
+    </resultMap>
+
+    <statement id="createTable">
+        <!--id自增主键从0开始 -->
+        <![CDATA[
+          CREATE TABLE `t_admin` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(128) NOT NULL,
+          `password` varchar(128) NOT NULL, `comment` varchar(1024) NOT NULL, PRIMARY KEY (`id`),
+          UNIQUE INDEX `UNIQUE_NAME` (`name`));
+        ]]>
+    </statement>
+
+    <statement id="dropTable">
+        <![CDATA[
+          drop table t_admin
+        ]]>
+    </statement>
+
+    <insert id="insert" parameterClass="adminModel">
+        <![CDATA[
+          insert into t_admin(name, password, comment) values (#name#, #password#, #comment#)
+        ]]>
+        <selectKey resultClass="int" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteById" parameterClass="int">
+        <![CDATA[
+          delete from t_admin where id = #id#
+        ]]>
+    </delete>
+
+    <!--<delete id="deleteByName" parameterClass="adminModel">-->
+        <!--<![CDATA[-->
+          <!--delete from t_admin where name = #name#-->
+        <!--]]>-->
+    <!--</delete>-->
+
+    <update id="update" parameterClass="adminModel">
+        <![CDATA[
+          update t_admin set id = #id#
+        ]]>
+        <dynamic>
+            <isNotNull property="name" prepend=",">name = #name#</isNotNull>
+            <isNotNull property="password" prepend=",">password = #password#</isNotNull>
+            <isNotNull property="comment" prepend=",">comment = #comment#</isNotNull>
+        </dynamic>
+        <![CDATA[
+          where id = #id#
+        ]]>
+    </update>
+
+    <select id="selectById" parameterClass="int" resultMap="adminModels">
+      <![CDATA[
+        select * from t_admin where id = #id#
+      ]]>
+    </select>
+
+    <select id="selectByParam" parameterClass="adminModel" resultMap="adminModels">
+        <![CDATA[
+        select * from t_admin
+      ]]>
+        <dynamic prepend="where">
+            <isNotEmpty property="id" prepend=" and ">id = #id#</isNotEmpty>
+            <isNotEmpty property="name" prepend=" and ">name = #name#</isNotEmpty>
+            <isNotEmpty property="password" prepend=" and ">password = #password#</isNotEmpty>
+            <isNotEmpty property="comment" prepend=" and ">comment = #comment#</isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="select" parameterClass="adminModel" resultMap="adminModels">
+      <![CDATA[
+        select * from t_admin
+      ]]>
+    </select>
+
+</sqlMap>

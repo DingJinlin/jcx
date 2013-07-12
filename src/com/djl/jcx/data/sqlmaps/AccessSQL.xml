@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="AccessSQL">
+    <typeAlias alias="accessModel" type="com.djl.jcx.data.model.AccessModel"/>
+
+    <resultMap id="accessModels" class="accessModel">
+        <result property="id" column="access_id"/>
+        <result property="name" column="name"/>
+        <result property="action" column="action"/>
+        <result property="date" column="date"/>
+        <!--<result property="admin" column="admin" resultMap="AdminSQL.adminModels"/>-->
+        <result property="count" column="count"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+
+    <!--<resultMap id="suitModels" class="suitModel">-->
+        <!--<result property="id" column="id"/>-->
+        <!--<result property="name" column="name"/>-->
+    <!--</resultMap>-->
+
+    <statement id="createTable">
+        <!--id自增主键从0开始 -->
+        <![CDATA[
+          CREATE TABLE `t_access` (`id`  int NOT NULL AUTO_INCREMENT ,`suit` int NOT NULL,
+          `action` tinyint NOT NULL, `date` timestamp NOT NULL, `admin` int NOT NULL, `count` int NOT NULL,
+          `price`  float NULL DEFAULT NULL COMMENT '售价/单价' ,PRIMARY KEY (`id`));
+        ]]>
+    </statement>
+
+    <statement id="dropTable">
+        <![CDATA[
+          drop table `t_access`
+        ]]>
+    </statement>
+
+    <insert id="insert" parameterClass="accessModel">
+        <![CDATA[
+          insert into t_access(suit, action, date, admin, count, price) values (#suit.id#, #action#, #date#, #admin.id#,
+          #count#, #price#)
+        ]]>
+        <selectKey resultClass="int" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteById" parameterClass="int">
+        <![CDATA[
+          delete from t_access where id = #id#
+        ]]>
+    </delete>
+
+    <select id="selectById" parameterClass="int" resultMap="accessModels">
+      <![CDATA[
+        select * from t_access as a, t_suit as s where id = #id# and a.suit = s.id
+      ]]>
+    </select>
+
+    <select id="selectByParam" parameterClass="accessModel" resultMap="accessModels">
+      <![CDATA[
+        select a.*, s.name, s.sellingPrice from t_access as a, t_suit as s where a.suit = s.id
+      ]]>
+      <dynamic>
+          <isNotEmpty property="id" prepend=" and ">id = #id#</isNotEmpty>
+          <!--<isNotEmpty property="admin" prepend=" and ">admin = #admin.id#</isNotEmpty>-->
+          <isNotEmpty property="suit" prepend=" and ">suit = #suit.id#</isNotEmpty>
+          <isNotEmpty property="action" prepend=" and ">action = #action#</isNotEmpty>
+          <isNotEmpty property="date" prepend=" and ">date = #date#</isNotEmpty>
+          <isNotEmpty property="count" prepend=" and ">count = #count#</isNotEmpty>
+          <isNotEmpty property="dateCondition1" prepend=" and ">date &gt; #dateCondition1#</isNotEmpty>
+          <isNotEmpty property="dateCondition2" prepend=" and ">date &lt; #dateCondition2#</isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="select" parameterClass="accessModel" resultMap="accessModels">
+      <![CDATA[
+        select * from t_access as a, t_suit as s where a.suit = s.id
+      ]]>
+    </select>
+</sqlMap>

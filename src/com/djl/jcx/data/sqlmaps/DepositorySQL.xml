@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="DepositorySQL">
+    <typeAlias alias="depositoryModel" type="com.djl.jcx.data.model.DepositoryModel"/>
+    <typeAlias alias="suitModel" type="com.djl.jcx.data.model.SuitModel"/>
+
+    <resultMap id="depositoryModels" class="depositoryModel">
+        <result property="id" column="id"/>
+        <!--<result property="suit" column="suit" resultMap="SuitSQL.suitModels"/>-->
+        <result property="suit" column="suit" select="SuitSQL.selectById"/>
+        <result property="amount" column="amount"/>
+    </resultMap>
+
+    <statement id="createTable">
+        <!--id自增主键从0开始 -->
+        <![CDATA[
+          CREATE TABLE `t_depository` (`id` int NOT NULL AUTO_INCREMENT,`suit` int NOT NULL,
+          `amount` int NOT NULL, PRIMARY KEY (`id`));
+        ]]>
+    </statement>
+
+    <statement id="dropTable">
+        <![CDATA[
+          drop table `t_depository`
+        ]]>
+    </statement>
+
+    <insert id="insert" parameterClass="depositoryModel">
+        <![CDATA[
+          insert into t_depository(suit, amount) values (#suit.id#, #amount#)
+        ]]>
+        <selectKey resultClass="int" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteById" parameterClass="int">
+        <![CDATA[
+          delete from t_depository where id = #id#
+        ]]>
+    </delete>
+
+    <delete id="deleteBySuitId" parameterClass="int">
+        <![CDATA[
+          delete from t_depository where suit = #suit.id#
+        ]]>
+    </delete>
+
+    <!--<delete id="deleteByName" parameterClass="depositoryModel">-->
+        <!--<![CDATA[-->
+          <!--delete from t_depository where name = #name#-->
+        <!--]]>-->
+    <!--</delete>-->
+
+    <update id="update" parameterClass="depositoryModel">
+        <![CDATA[
+          update t_depository set id = #id#
+        ]]>
+        <dynamic>
+            <isNotEmpty property="suit" prepend=",">suit = #suit.id#</isNotEmpty>
+            <isNotEmpty property="amount" prepend=",">amount = #amount#</isNotEmpty>
+        </dynamic>
+        <![CDATA[
+          where id = #id#
+        ]]>
+    </update>
+
+    <select id="selectById" parameterClass="int" resultMap="depositoryModels">
+      <![CDATA[
+        select * from t_depository where id = #id#
+      ]]>
+    </select>
+
+    <select id="select" parameterClass="depositoryModel" resultMap="depositoryModels">
+      <![CDATA[
+        select * from t_depository
+      ]]>
+    </select>
+
+    <!--<select id="selectByParam" parameterClass="depositoryModel" resultMap="depositoryModels">-->
+        <!--<![CDATA[-->
+        <!--select * from t_depository-->
+      <!--]]>-->
+        <!--<dynamic prepend="where">-->
+          <!--<isNotEmpty property="id" prepend=" and ">id = #id#</isNotEmpty>-->
+          <!--<isNotEmpty property="suit" prepend=" and ">suit = #suit.id#</isNotEmpty>-->
+          <!--<isNotEmpty property="amount" prepend=" and ">amount = #amount#</isNotEmpty>-->
+        <!--</dynamic>-->
+    <!--</select>-->
+
+    <select id="selectByParam" parameterClass="depositoryModel" resultMap="depositoryModels">
+        <![CDATA[
+          select * from t_depository d, t_suit s where d.suit = s.id
+        ]]>
+        <dynamic>
+            <isNotEmpty property="id" prepend=" and ">id = #id#</isNotEmpty>
+            <isNotEmpty property="suit" prepend=" and ">suit = #suit.id#</isNotEmpty>
+            <isNotEmpty property="amount" prepend=" and ">amount = #amount#</isNotEmpty>
+        </dynamic>
+    </select>
+
+    <select id="selectByAmountGreater" parameterClass="int" resultMap="depositoryModels">
+      <![CDATA[
+        select * from t_depository d, t_suit s where d.suit = s.id and d.amount > #amount#
+      ]]>
+    </select>
+
+    <select id="selectByAmountLess" parameterClass="int" resultMap="depositoryModels">
+      <![CDATA[
+        select * from t_depository d, t_suit s where d.suit = s.id and d.amount < #amount#
+      ]]>
+    </select>
+
+    <!-- 按供应商查询库存 -->
+    <select id="selectBySuit" parameterClass="int" resultClass="suitModel">
+      <![CDATA[
+        select * from t_depository as d, t_suit as s where s.id = #suitId# and s.id = d.suit
+      ]]>
+    </select>
+
+    <!-- 按供应商查询库存 -->
+    <select id="selectByFactory" parameterClass="int" resultMap="depositoryModels">
+      <![CDATA[
+        select * from t_depository as d, t_suit as s where s.factory = #factoryId# and s.id = d.suit
+      ]]>
+    </select>
+
+    <!-- 按类型查询库存 -->
+    <select id="selectByType" parameterClass="int" resultMap="depositoryModels">
+      <![CDATA[
+        select * from t_depository as d, t_suit as s where s.type = #typeId# and s.id = d.suit
+      ]]>
+    </select>
+
+</sqlMap>

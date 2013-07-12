@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="SuitSQL">
+    <typeAlias alias="suitModel" type="com.djl.jcx.data.model.SuitModel"/>
+
+    <resultMap id="suitModels" class="suitModel">
+        <result property="id" column="id"/>
+        <result property="internationalCode" column="internationalCode"/>
+        <!--<result property="type" column="type" resultMap="TypeSQL.typeModels"/>-->
+        <result property="type" column="type" select="TypeSQL.selectById"/>
+        <result property="name" column="name"/>
+        <result property="abbreviation" column="abbreviation"/>
+        <!--<result property="layout" column="layout" resultMap="FactorySQL.factoryModels"/>-->
+        <result property="factory" column="factory" select="FactorySQL.selectById"/>
+        <result property="standard" column="standard"/>
+        <result property="unit" column="unit"/>
+        <result property="purchasePrice" column="purchasePrice"/>
+        <result property="sellingPrice" column="sellingPrice"/>
+        <result property="comment" column="comment"/>
+        <result property="amount" column="amount"/>
+    </resultMap>
+
+    <!--<statement id="createTable">-->
+        <!--&lt;!&ndash;id自增主键从0开始 &ndash;&gt;-->
+        <!--<![CDATA[-->
+          <!--CREATE TABLE `t_suit` (`id`  int NOT NULL AUTO_INCREMENT, `internationalCode` bigint NOT NULL,-->
+          <!--`type` int NOT NULL, `name` varchar(100) NOT NULL, `factory` int NULL,-->
+          <!--`standard` varchar(20) NULL, `unit` varchar(10) NULL, `purchasePrice` float NULL,-->
+          <!--`sellingPrice` float NULL, `comment` varchar(1024) NULL, PRIMARY KEY (`id`));-->
+        <!--]]>-->
+    <!--</statement>-->
+
+    <statement id="dropTable">
+        <![CDATA[
+          drop table `t_suit`
+        ]]>
+    </statement>
+
+    <insert id="insert" parameterClass="suitModel">
+        <![CDATA[
+          insert into t_suit(internationalCode, type, name, abbreviation, factory, standard, unit, purchasePrice, sellingPrice,
+          comment) values (#internationalCode#, #type.id#, #name#, #abbreviation#, #factory.id#, #standard#, #unit#, #purchasePrice#,
+          #sellingPrice#, #comment#)
+        ]]>
+        <selectKey resultClass="int" keyProperty="id">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteById" parameterClass="int">
+        <![CDATA[
+          delete from t_suit where id = #id#
+        ]]>
+    </delete>
+
+    <!--<delete id="deleteByName" parameterClass="suitModel">-->
+        <!--<![CDATA[-->
+          <!--delete from t_suit where name = #name#-->
+        <!--]]>-->
+    <!--</delete>-->
+
+    <update id="update" parameterClass="suitModel">
+        <![CDATA[
+          update t_suit set id = #id#
+        ]]>
+        <dynamic>
+            <isNotEmpty property="internationalCode" prepend=",">internationalCode = #internationalCode#</isNotEmpty>
+            <isNotEmpty property="type" prepend=",">type = #type.id#</isNotEmpty>
+            <isNotEmpty property="name" prepend=",">name = #name#</isNotEmpty>
+            <isNotEmpty property="abbreviation" prepend=",">abbreviation = #abbreviation#</isNotEmpty>
+            <isNotEmpty property="factory" prepend=",">factory = #factory.id#</isNotEmpty>
+            <isNotEmpty property="standard" prepend=",">standard = #standard#</isNotEmpty>
+            <isNotEmpty property="unit" prepend=",">unit = #unit#</isNotEmpty>
+            <isNotEmpty property="purchasePrice" prepend=",">purchasePrice = #purchasePrice#</isNotEmpty>
+            <isNotEmpty property="sellingPrice" prepend=",">sellingPrice = #sellingPrice#</isNotEmpty>
+            <isNotEmpty property="comment" prepend=",">comment = #comment#</isNotEmpty>
+        </dynamic>
+        <![CDATA[
+          where id = #id#
+        ]]>
+    </update>
+
+    <select id="selectById" parameterClass="int" resultMap="suitModels">
+      <![CDATA[
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit and s.id = #id#
+      ]]>
+    </select>
+
+    <select id="selectByParam" parameterClass="suitModel" resultMap="suitModels">
+      <![CDATA[
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit
+      ]]>
+      <dynamic>
+          <isNotEmpty property="id" prepend=" and ">id = #id#</isNotEmpty>
+          <isNotEmpty property="internationalCode" prepend=" and ">internationalCode = #internationalCode#</isNotEmpty>
+          <isNotEmpty property="type" prepend=" and ">type = #type.id#</isNotEmpty>
+          <isNotEmpty property="name" prepend=" and ">name = #name#</isNotEmpty>
+          <isNotEmpty property="abbreviation" prepend=" and ">abbreviation = #abbreviation#</isNotEmpty>
+          <isNotEmpty property="factory" prepend=" and ">factory = #factory.id#</isNotEmpty>
+          <isNotEmpty property="standard" prepend=" and ">standard = #standard#</isNotEmpty>
+          <isNotEmpty property="unit" prepend=" and ">unit = #unit#</isNotEmpty>
+          <isNotEmpty property="purchasePrice" prepend=" and ">purchasePrice = #purchasePrice#</isNotEmpty>
+          <isNotEmpty property="sellingPrice" prepend=" and ">sellingPrice = #sellingPrice#</isNotEmpty>
+          <isNotEmpty property="comment" prepend=" and ">comment = #comment#</isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="select" parameterClass="suitModel" resultMap="suitModels">
+      <![CDATA[
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit
+      ]]>
+    </select>
+
+    <select id="selectByMaxId" parameterClass="suitModel" resultMap="suitModels">
+      <![CDATA[
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit and s.id = (SELECT MAX(id) FROM t_suit);
+      ]]>
+    </select>
+</sqlMap>
