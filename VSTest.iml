@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="web" name="Web">
       <configuration>
@@ -9,6 +9,7 @@
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
+        <sourceRoots />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -26,12 +27,16 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
@@ -55,6 +60,16 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.orm:3.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.beans:3.2.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:com.springsource.org.apache.commons.logging:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.core:3.2.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.jdbc:3.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.transaction:3.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.aopalliance:com.springsource.org.aopalliance:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.context:3.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:org.springframework.aop:3.2.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: opensource:jpinyin:1.0" level="project" />
   </component>
 </module>
 
