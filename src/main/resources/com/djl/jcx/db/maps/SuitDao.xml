@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.djl.jcx.db.dao.SuitDao">
+    <select id="queryFactory" parameterType="int" resultType="com.djl.jcx.data.model.FactoryModel" >
+       select * from t_factory where id = #id#
+    </select>
+
+    <select id="queryType" parameterType="int" resultMap="com.djl.jcx.data.model.TypeModel" >
+       select * from t_type where id = #id#
+    </select>
+
+    <resultMap id="suitModels" type="com.djl.jcx.data.model.SuitModel">
+        <id property="id" column="id"/>
+        <result property="internationalCode" column="internationalCode"/>
+        <result property="name" column="name" />
+        <result property="abbreviation" column="abbreviation"/>
+        <result property="standard" column="standard"/>
+        <result property="unit" column="unit"/>
+        <result property="purchasePrice" column="purchasePrice"/>
+        <result property="sellingPrice" column="sellingPrice"/>
+        <result property="comment" column="comment"/>
+        <result property="amount" column="amount"/>
+        <association property="type" column="type" select="queryType"/>
+        <association property="factory" column="factory" select="queryFactory"/>
+    </resultMap>
+
+    <!--<sql id="createTable">-->
+        <!--&lt;!&ndash;id自增主键从0开始 &ndash;&gt;-->
+        <!--<![CDATA[-->
+          <!--CREATE TABLE `t_suit` (`id`  int NOT NULL AUTO_INCREMENT, `internationalCode` bigint NOT NULL,-->
+          <!--`type` int NOT NULL, `name` varchar(100) NOT NULL, `factory` int NULL,-->
+          <!--`standard` varchar(20) NULL, `unit` varchar(10) NULL, `purchasePrice` float NULL,-->
+          <!--`sellingPrice` float NULL, `comment` varchar(1024) NULL, PRIMARY KEY (`id`));-->
+        <!--]]>-->
+    <!--</sql>-->
+    <!--<sql id="dropTable">-->
+        <!--<![CDATA[-->
+          <!--drop table `t_suit`-->
+        <!--]]>-->
+    <!--</sql>-->
+
+    <insert id="insert" parameterType="com.djl.jcx.data.model.SuitModel" useGeneratedKeys="true" keyProperty="id">
+          insert into t_suit(internationalCode, type, name, abbreviation, factory, standard, unit, purchasePrice, sellingPrice,
+          comment) values (#internationalCode#, #type.id#, #name#, #abbreviation#, #factory.id#, #standard#, #unit#, #purchasePrice#,
+          #sellingPrice#, #comment#)
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+          delete from t_suit where id = #id#
+    </delete>
+
+    <!--<delete id="deleteByName" parameterClass="suitModel">-->
+        <!--<![CDATA[-->
+          <!--delete from t_suit where name = #name#-->
+        <!--]]>-->
+    <!--</delete>-->
+
+    <update id="update" parameterType="com.djl.jcx.data.model.SuitModel">
+        update t_suit set id = #id#
+        <set>
+            <if test="internationalCode != null">
+                ,internationalCode = #internationalCode#
+            </if>
+            <if test="type != null">
+                ,type = #type.id#
+            </if>
+            <if test="name != null">
+                ,name = #name#
+            </if>
+            <if test="abbreviation != null">
+                ,abbreviation = #abbreviation#
+            </if>
+            <if test="factory != null">
+                ,factory = #factory.id#
+            </if>
+            <if test="standard != null">
+                ,standard = #standard#
+            </if>
+            <if test="unit != null">
+                ,unit = #unit#
+            </if>
+            <if test="purchasePrice != null">
+                ,purchasePrice = #purchasePrice#
+            </if>
+            <if test="sellingPrice != null">
+                ,sellingPrice = #sellingPrice#
+            </if>
+            <if test="comment != null">
+                ,comment = #comment#
+            </if>
+        </set>
+        where id = #id#
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="suitModels">
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit and s.id = #id#
+    </select>
+
+    <select id="selectByParam" parameterType="com.djl.jcx.data.model.SuitModel" resultMap="suitModels">
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit
+        <set>
+            <if test="id != null">
+                and s.id = #id#
+            </if>
+            <if test="internationalCode != null">
+                and s.internationalCode = #internationalCode#
+            </if>
+            <if test="type != null">
+                and s.type = #type.id#
+            </if>
+            <if test="name != null">
+                and s.name = #name#
+            </if>
+            <if test="abbreviation != null">
+                and s.abbreviation = #abbreviation#
+            </if>
+            <if test="factory != null">
+                and s.factory = #factory.id#
+            </if>
+            <if test="standard != null">
+                and s.standard = #standard#
+            </if>
+            <if test="unit != null">
+                and s.unit = #unit#
+            </if>
+            <if test="purchasePrice != null">
+                and s.purchasePrice = #purchasePrice#
+            </if>
+            <if test="sellingPrice != null">
+                and s.sellingPrice = #sellingPrice#
+            </if>
+            <if test="comment != null">
+                and s.comment = #comment#
+            </if>
+        </set>
+    </select>
+
+    <select id="selectByMaxId" resultMap="suitModels">
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit and s.id = (SELECT MAX(id) FROM t_suit);
+    </select>
+
+    <select id="selectAll" resultMap="suitModels">
+        select s.*, d.amount from t_suit as s, t_depository as d where s.id = d.suit;
+    </select>
+</mapper>

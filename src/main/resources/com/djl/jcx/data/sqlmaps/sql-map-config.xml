@@ -1,3 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <mappers>
+        <mapper resource="com/djl/jcx/data/sqlmaps/TypeSQL.xml"/>
+        <mapper resource="com/djl/jcx/data/sqlmaps/FactorySQL.xml"/>
+        <mapper resource="com/djl/jcx/data/sqlmaps/SuitSQL.xml"/>
+        <mapper resource="com/djl/jcx/data/sqlmaps/DepositorySQL.xml"/>
+        <mapper resource="com/djl/jcx/data/sqlmaps/AccessSQL.xml"/>
+        <mapper resource="com/djl/jcx/data/sqlmaps/SellingSQL.xml"/>
+        <mapper resource="com/djl/jcx/data/sqlmaps/AdminSQL.xml"/>
+    </mappers>
+</configuration>
+
+<!--
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
         "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
@@ -14,19 +30,4 @@
     <sqlMap resource="com/djl/jcx/data/sqlmaps/AdminSQL.xml"/>
 </sqlMapConfig>
 
-<!--
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>
-    <mappers>
-        <mapper resource="com/djl/jcx/data/sqlmaps/TypeSQL.xml"/>
-        <mapper resource="com/djl/jcx/data/sqlmaps/FactorySQL.xml"/>
-        <mapper resource="com/djl/jcx/data/sqlmaps/SuitSQL.xml"/>
-        <mapper resource="com/djl/jcx/data/sqlmaps/DepositorySQL.xml"/>
-        <mapper resource="com/djl/jcx/data/sqlmaps/AccessSQL.xml"/>
-        <mapper resource="com/djl/jcx/data/sqlmaps/SellingSQL.xml"/>
-        <mapper resource="com/djl/jcx/data/sqlmaps/AdminSQL.xml"/>
-    </mappers>
-</configuration>
 -->

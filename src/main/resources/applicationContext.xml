@@ -7,8 +7,8 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <context:annotation-config/>
-    <context:component-scan base-package="com.djl.jcx"/>
+    <!--<context:annotation-config/>-->
+    <!--<context:component-scan base-package="com.djl.jcx"/>-->
 
     <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
         <!--<property name="locations">-->
@@ -39,29 +39,21 @@
         <property name="testConnectionOnCheckout" value="false" />
     </bean>
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.djl.jcx.data.sqlmaps"/>
-    </bean>
-
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="c3p0DataSource"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="configLocation" value="classpath:com/djl/jcx/data/sqlmaps/sql-map-config.xml"/>
+        <property name="configLocation" value="classpath:com/djl/jcx/db/config/myBatis-config.xml"/>
         <property name="dataSource" ref="c3p0DataSource"/>
     </bean>
 
-    <!--<bean id="accessDao" class="com.djl.jcx.data.dao.ibatis.AccessDaoImpl" parent="abstractDao"/>-->
-    <!--<bean id="sellingDao" class="com.djl.jcx.data.dao.ibatis.SellingDaoImpl" parent="abstractDao"/>-->
-    <!--<bean id="adminDao" class="com.djl.jcx.data.dao.ibatis.AdminDaoImpl" parent="abstractDao"/>-->
-    <!--<bean id="depositoryDao" class="com.djl.jcx.data.dao.ibatis.DepositoryDaoImpl" parent="abstractDao"/>-->
-    <!--<bean id="factoryDao" class="com.djl.jcx.data.dao.ibatis.FactoryDaoImpl" parent="abstractDao"/>-->
-    <!--<bean id="suitDao" class="com.djl.jcx.data.dao.ibatis.SuitDaoImpl" parent="abstractDao"/>-->
-    <!--<bean id="typeDao" class="com.djl.jcx.data.dao.ibatis.TypeDaoImpl" parent="abstractDao"/>-->
-
     <bean id="suitDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="com.djl.jcx.data.dao.ISuitDao"/>
+        <property name="mapperInterface" value="com.djl.jcx.db.dao.SuitDao"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="suitService" class="com.djl.jcx.db.service.impl.SuitServiceImpl">
+        <property name="suitDao" ref="suitDao"/>
     </bean>
 </beans>

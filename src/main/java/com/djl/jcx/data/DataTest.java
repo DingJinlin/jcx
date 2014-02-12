@@ -1,6 +1,8 @@
 package com.djl.jcx.data;
 
 import com.djl.jcx.data.dao.ISuitDao;
+import com.djl.jcx.data.model.SuitModel;
+import com.djl.jcx.db.service.SuitService;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.context.ApplicationContext;
@@ -20,15 +22,13 @@ import java.util.List;
  */
 public class DataTest {
     static String[] configLocations = new String[]{
-            "classpath:applicationContext.xml",
+            "classpath:applicationContext.xml"
     };
 
     public static void main(String[] args) throws Exception {
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
-        SqlSessionFactoryBean sqlSessionFactory = (SqlSessionFactoryBean)ctx.getBean("sqlSessionFactory");
-        ISuitDao suitDao = ctx.getBean("suitDao", ISuitDao.class);
-        List suits = suitDao.listAll();
-        MapperFactoryBean bean = ctx.getBean("suitDao", MapperFactoryBean.class);
+        SuitService suitService = ctx.getBean("suitService", SuitService.class);
+        SuitModel suits = suitService.selectByMaxId();
         System.out.println("");
 
 //        Class.forName("org.sqlite.JDBC");

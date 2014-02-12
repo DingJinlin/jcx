@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="846058651">
+    <data-source source="LOCAL" name="SQLite -JCX" uuid="f96adace-1e11-4bc1-83da-16eac90251ca">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/main/resources/jcx.s3db</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+
