@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>jcx</groupId>
-    <artifactId>jcx</artifactId>
+    <groupId>JCXWwing</groupId>
+    <artifactId>JCXSwing</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
+   <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -20,6 +20,19 @@
             <artifactId>org.springframework.orm</artifactId>
             <version>3.2.4.RELEASE</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.core</artifactId>-->
+            <!--<version>3.2.5.RELEASE</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.beans</artifactId>-->
+            <!--<version>3.2.5.RELEASE</version>-->
+        <!--</dependency>-->
+
 
         <dependency>
             <groupId>c3p0</groupId>
@@ -35,6 +48,12 @@
 
         <dependency>
             <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
             <version>1.2.2</version>
         </dependency>
@@ -44,6 +63,13 @@
             <artifactId>jpinyin</artifactId>
             <version>1.0</version>
         </dependency>
+
+       <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+           <version>4.11</version>
+       </dependency>
     </dependencies>
+
 
 </project>

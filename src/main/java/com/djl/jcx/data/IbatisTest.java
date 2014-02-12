@@ -1,5 +1,6 @@
-package com.djl.jcx.data.dao;
+package com.djl.jcx.data;
 
+import com.djl.jcx.data.dao.*;
 import com.djl.jcx.data.model.*;
 //import com.raycom.support.convert.DateConvert;
 import org.junit.After;
