@@ -11,20 +11,32 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.2.6.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>org.springframework.orm</artifactId>
             <version>3.2.4.RELEASE</version>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.core</artifactId>
-            <version>3.2.5.RELEASE</version>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>org.springframework.beans</artifactId>
-            <version>3.2.5.RELEASE</version>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.2</version>
         </dependency>
 
         <dependency>

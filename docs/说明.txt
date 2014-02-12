@@ -1,0 +1,2 @@
+Spring + mybatis整合方案总结 结合实例应用
+http://www.cnblogs.com/dennisit/archive/2013/04/10/3012972.html
